@@ -14,4 +14,16 @@ const geocode = async (city) => {
   return geocode;
 };
 
-export { geocode };
+const oneCall = async (geocode) => {
+  const { lat, lon } = geocode;
+
+  const response = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8fc4fd101e5832e98fe2788ea8710650`,
+    { mode: "cors" }
+  );
+  const countryData = await response.json();
+
+  return countryData;
+};
+
+export { geocode, oneCall };

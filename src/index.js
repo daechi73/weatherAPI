@@ -1,5 +1,7 @@
-import { geocode } from "./Logic/Setup";
+import { geocode, oneCall } from "./Logic/Setup";
 
 geocode("toronto").then((data) => {
-  console.log(data);
+  oneCall(data).then((country) => {
+    console.log(country);
+  });
 });
