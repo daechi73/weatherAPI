@@ -6,6 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather API</title>
     <script src="main.js" defer></script>
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
-  <body></body>
+  <body>
+    <div class="header">
+      <div class="location"></div>
+      <div class="searchbarDiv">
+        <input type="text" class="searchBar" /><span
+          ><button type="button" class="searchBtn">S</button></span
+        >
+      </div>
+    </div>
+    <div class="info">
+      <div class="weather">
+        Weather:
+        <div class="weather-main"></div>
+        <div class="weather-description"></div>
+      </div>
+    </div>
+    <div class="wind">
+      Wind:
+      <div class="speed"></div>
+      <div class="degree"></div>
+    </div>
+    <div class="main">
+      <div class="temp"></div>
+      <div class="feelsLike"></div>
+      <div class="tempMin"></div>
+      <div class="tempMax"></div>
+    </div>
+  </body>
 </html>
