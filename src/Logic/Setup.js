@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 const geocode = async (city) => {
   const response = await fetch(
     `
@@ -11,25 +13,94 @@ const geocode = async (city) => {
   const geocode = geocodeData.find((geocode) => {
     return geocode.name.toLowerCase() === city.toLowerCase();
   });
+  console.log(geocode);
   return geocode;
 };
 
-const oneCall = async (geocode) => {
+const currentWeather = async (geocode) => {
   const { lat, lon } = geocode;
 
   const response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8fc4fd101e5832e98fe2788ea8710650`,
     { mode: "cors" }
   );
-  const countryData = await response.json();
-
-  return countryData;
+  const data = await response.json();
+  console.log(data);
+  return data;
 };
 
-const renderInfo = (country) => {
-  console.log(country);
+const fiveDays = async (geocode) => {
+  const { lat, lon } = geocode;
+
+  const response = await fetch(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=8fc4fd101e5832e98fe2788ea8710650`,
+    { mode: "cors" }
+  );
+  const data = await response.json();
+  //console.log(data);
+  return data;
+};
+const getNextFourDates = () => {
+  const nextDay = new Date();
+  const nextFourDates = [];
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  for (let i = 0; i < 4; i++) {
+    nextDay.setDate(nextDay.getDate() + 1);
+    nextFourDates.push({
+      afternoon: format(nextDay, "yyyy-MM-dd") + " " + "15:00:00",
+      night: format(nextDay, "yyyy-MM-dd") + " " + "21:00:00",
+      day: weekday[nextDay.getDay()],
+    });
+  }
+  return nextFourDates;
+};
+
+const renderDaily = (dataList, nextFourDates) => {
+  const createDailyBox = (days, dayTemps, nightTemps) => {
+    const dailyBoxContainer = document.querySelector(".dailyBoxContainer");
+    const dailyBox = document.createElement("div");
+    const day = document.createElement("div");
+    const dayTemp = document.createElement("div");
+    const nightTemp = document.createElement("div");
+    dailyBox.classList.add("dailyBox");
+    day.classList.add("day");
+    dayTemp.classList.add("dayTemp");
+    nightTemp.classList.add("nightTemp");
+    day.textContent = `${days}`;
+    dayTemp.textContent = `${dayTemps}C`;
+    nightTemp.textContent = `${nightTemps}C`;
+
+    dailyBox.appendChild(day);
+    dailyBox.appendChild(dayTemp);
+    dailyBox.appendChild(nightTemp);
+    dailyBoxContainer.appendChild(dailyBox);
+  };
+
+  nextFourDates.forEach((e) => {
+    const afternoonDate = dataList.find((data) => {
+      return data.dt_txt === e.afternoon;
+    });
+    const nightDate = dataList.find((data) => {
+      return data.dt_txt === e.night;
+    });
+    //console.log(afternoonDate);
+    //console.log(nightDate);
+    createDailyBox(e.day, afternoonDate.main.temp, nightDate.main.temp);
+  });
+  //format(today, "yyyy-MM-dd k:mm:ss") time format
+};
+
+const renderCurrentInfo = (country) => {
+  //console.log(country);
   const locationName = document.querySelector(".location");
-  const weatherMain = document.querySelector(".weather-main");
   const weatherDesc = document.querySelector(".weather-description");
   const windSpeed = document.querySelector(".speed");
   const windDegree = document.querySelector(".degree");
@@ -38,7 +109,6 @@ const renderInfo = (country) => {
   const tempMin = document.querySelector(".tempMin");
   const tempMax = document.querySelector(".tempMax");
   locationName.textContent = country.name;
-  weatherMain.textContent = country.weather[0].main;
   weatherDesc.textContent = country.weather[0].description;
   windSpeed.textContent = `Speed: ${country.wind.speed}`;
   windDegree.textContent = `Degree: ${country.wind.deg}`;
@@ -53,9 +123,15 @@ const searchBtnEventHandler = () => {
   sBtn.addEventListener("click", () => {
     const input = document.querySelector(".searchBar");
     //console.log(input);
-    geocode(input.value).then((data) => {
-      oneCall(data).then((country) => {
-        renderInfo(country);
+    geocode(input.value).then((geocodeData) => {
+      currentWeather(geocodeData).then((weatherInfo) => {
+        renderCurrentInfo(weatherInfo);
+      });
+
+      fiveDays(geocodeData).then((weatherInfo) => {
+        //console.log(weatherInfo.list);
+        //console.log(renderDaily(weatherInfo.list));
+        renderDaily(weatherInfo.list, getNextFourDates());
       });
     });
   });
@@ -65,4 +141,4 @@ const startUp = () => {
   searchBtnEventHandler();
 };
 
-export { geocode, oneCall, startUp };
+export { geocode, currentWeather, startUp };
