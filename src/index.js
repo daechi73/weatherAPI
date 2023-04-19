@@ -1,5 +1,5 @@
 import { geocode } from "./Logic/Setup";
 
-geocode().then((data) => {
+geocode("toronto").then((data) => {
   console.log(data);
 });
