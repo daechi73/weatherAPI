@@ -1,0 +1,19 @@
+html {
+  height: 100%;
+}
+body {
+  background-image: url("../imgs/background2.jpg");
+  background-color: black;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: white;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+.location {
+  height: 30px;
+  padding-top: 10px;
+  padding-left: 20px;
+}
