@@ -77,13 +77,14 @@ const renderDaily = (dataList, nextFourDates) => {
     day.textContent = `${days}`;
     dayTemp.textContent = `${dayTemps}C`;
     nightTemp.textContent = `${nightTemps}C`;
-
     dailyBox.appendChild(day);
     dailyBox.appendChild(dayTemp);
     dailyBox.appendChild(nightTemp);
     dailyBoxContainer.appendChild(dailyBox);
   };
-
+  const dailyBoxContainer = (document.querySelector(
+    ".dailyBoxContainer"
+  ).textContent = "");
   nextFourDates.forEach((e) => {
     const afternoonDate = dataList.find((data) => {
       return data.dt_txt === e.afternoon;
@@ -93,6 +94,7 @@ const renderDaily = (dataList, nextFourDates) => {
     });
     //console.log(afternoonDate);
     //console.log(nightDate);
+
     createDailyBox(e.day, afternoonDate.main.temp, nightDate.main.temp);
   });
   //format(today, "yyyy-MM-dd k:mm:ss") time format
