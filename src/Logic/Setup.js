@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import svgCollection from "../SVG/SvgCollection";
 
 const geocode = async (city) => {
   const response = await fetch(
@@ -82,9 +83,7 @@ const renderDaily = (dataList, nextFourDates) => {
     dailyBox.appendChild(nightTemp);
     dailyBoxContainer.appendChild(dailyBox);
   };
-  const dailyBoxContainer = (document.querySelector(
-    ".dailyBoxContainer"
-  ).textContent = "");
+  document.querySelector(".dailyBoxContainer").textContent = "";
   nextFourDates.forEach((e) => {
     const afternoonDate = dataList.find((data) => {
       return data.dt_txt === e.afternoon;
@@ -99,6 +98,27 @@ const renderDaily = (dataList, nextFourDates) => {
   });
   //format(today, "yyyy-MM-dd k:mm:ss") time format
 };
+const weatherSVG = (weather) => {
+  let getSVG;
+  if (weather === "Clouds") getSVG = svgCollection().clouds;
+  else if (weather === "Thunderstorm") getSVG = svgCollection().thunderStorm;
+  else if (weather === "Drizzle") getSVG = svgCollection().drizzle;
+  else if (weather === "Rain") getSVG = svgCollection().rain;
+  else if (weather === "Snow") getSVG = svgCollection().snow;
+  else if (weather === "Mist" || weather === "Fog" || weather === "Haze")
+    getSVG = svgCollection().fog;
+  else if (weather === "Dust" || weather === "Sand" || weather === "Ash")
+    getSVG = svgCollection().dust;
+  else if (weather === "Squall") getSVG = svgCollection().squalls;
+  else if (weather === "Tornado") getSVG = svgCollection().tornado;
+  else if (weather === "Smoke") getSVG = svgCollection().smoke;
+  else if (weather === "Wind") getSVG = svgCollection().wind;
+  else if (weather === "Clear") getSVG = svgCollection().clear;
+  else {
+    throw new Error("No such Weather!");
+  }
+  return getSVG;
+};
 
 const renderCurrentInfo = (country) => {
   //console.log(country);
@@ -110,14 +130,17 @@ const renderCurrentInfo = (country) => {
   const feelsLike = document.querySelector(".feelsLike");
   const tempMin = document.querySelector(".tempMin");
   const tempMax = document.querySelector(".tempMax");
-  locationName.textContent = country.name;
-  weatherDesc.textContent = country.weather[0].description;
-  windSpeed.textContent = `Speed: ${country.wind.speed}`;
-  windDegree.textContent = `Degree: ${country.wind.deg}`;
-  mainTemp.textContent = `Temp: ${country.main.temp}c`;
-  feelsLike.textContent = `Feels Like: ${country.main.feels_like}c`;
-  tempMin.textContent = `Min Temp: ${country.main.temp_min}c`;
-  tempMax.textContent = `Max Temp: ${country.main.temp_max}c`;
+  locationName.innerHTML = country.name;
+  weatherDesc.innerHTML = `${weatherSVG(country.weather[0].main)} ${
+    country.weather[0].description
+  }`;
+
+  windSpeed.innerHTML = `<img src="./svgs/wind.svg" alt="wind" height="30px" width="30px"> <span>${country.wind.speed} m/s</span>`;
+  windDegree.innerHTML = `<img src="./svgs/wind.svg" alt="wind" height="30px" width="30px"><span> ${country.wind.deg} deg</span>`;
+  mainTemp.innerHTML = `<img src="./svgs/thermometer-celsius.svg"height="30px" width="30px" alt="thermo" ><span> ${country.main.temp}c</span>`;
+  feelsLike.innerHTML = `<img src="./svgs/thermometer-celsius.svg"height="30px" width="30px" alt="thermo" ><span> Feels Like ${country.main.feels_like}c</span>`;
+  tempMin.innerHTML = `<img src="./svgs/thermometer-celsius.svg"height="30px" width="30px" alt="thermo" >Min Temp: ${country.main.temp_min}c`;
+  tempMax.innerHTML = `<img src="./svgs/thermometer-celsius.svg"height="30px" width="30px" alt="thermo" >Max Temp: ${country.main.temp_max}c`;
 };
 
 const searchBtnEventHandler = () => {
@@ -128,6 +151,7 @@ const searchBtnEventHandler = () => {
     geocode(input.value).then((geocodeData) => {
       currentWeather(geocodeData).then((weatherInfo) => {
         renderCurrentInfo(weatherInfo);
+        console.log(weatherInfo);
       });
 
       fiveDays(geocodeData).then((weatherInfo) => {
