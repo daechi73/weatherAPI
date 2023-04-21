@@ -2,6 +2,7 @@
   font-family: sanspro;
   src: url(../fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf);
 }
+
 html {
   height: 100%;
 }
@@ -108,13 +109,21 @@ body {
 }
 .nightTemp {
   font-size: 12px;
+  padding-right: 30px;
 }
+
 .day > svg {
   height: 40px;
   width: 40px;
+}
+.dayTemp > span {
+  padding-right: 30px;
 }
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
   opacity: 1; /* Firefox */
+}
+
+@media only screen and (max-width: 600px) {
 }
