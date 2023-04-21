@@ -10,11 +10,10 @@ const geocode = async (city) => {
     { mode: "cors" }
   );
   const geocodeData = await response.json();
-
   const geocode = geocodeData.find((geocode) => {
     return geocode.name.toLowerCase() === city.toLowerCase();
   });
-  //console.log(geocode);
+  //console.log(geocodeData);
   return geocode;
 };
 
@@ -157,22 +156,40 @@ const renderCurrentInfo = (country) => {
 };
 
 const searchBtnEventHandler = () => {
+  const errorMsg = document.querySelector(".errorMsg");
   const sBtn = document.querySelector(".searchBtn");
   sBtn.addEventListener("click", () => {
-    const input = document.querySelector(".searchBar");
-    //console.log(input);
-    geocode(input.value).then((geocodeData) => {
-      currentWeather(geocodeData).then((weatherInfo) => {
-        renderCurrentInfo(weatherInfo);
-        //console.log(weatherInfo);
-      });
+    try {
+      const input = document.querySelector(".searchBar");
+      //console.log(input);
+      if (input.value === "") {
+        throw new Error("Your input is empty");
+      }
+      geocode(input.value).then((geocodeData) => {
+        if (geocodeData == null || geocodeData === undefined) {
+          errorMsg.textContent = `Couldn't find 
+          what you are searching for, make sure you are searching for a city/country`;
+          throw new Error(`Couldn't find 
+          what you are searching for, make sure you are searching for a city/country`);
+        } else {
+          errorMsg.textContent = "";
+        }
 
-      fiveDays(geocodeData).then((weatherInfo) => {
-        //console.log(weatherInfo.list);
-        //console.log(renderDaily(weatherInfo.list));
-        renderDaily(weatherInfo.list, getNextFourDates());
+        currentWeather(geocodeData).then((weatherInfo) => {
+          renderCurrentInfo(weatherInfo);
+          //console.log(weatherInfo);
+        });
+
+        fiveDays(geocodeData).then((weatherInfo) => {
+          //console.log(weatherInfo.list);
+          //console.log(renderDaily(weatherInfo.list));
+          renderDaily(weatherInfo.list, getNextFourDates());
+        });
       });
-    });
+    } catch (error) {
+      console.log(error);
+      errorMsg.textContent = "Please enter a country or city name";
+    }
   });
 };
 
