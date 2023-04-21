@@ -7,6 +7,7 @@ html {
   height: 100%;
 }
 body {
+  overflow: auto;
   font-size: 20px;
   font-family: sanspro, "Times New Roman", Times, serif;
   display: grid;
@@ -17,8 +18,9 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+
   color: white;
-  height: 100%;
+  height: 690px;
   padding: 0;
   margin: 0;
 }
@@ -68,6 +70,7 @@ body {
   grid-row: 3/4;
   grid-column: 1/5;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 .currentInfo {
   grid-column: 3/5;
@@ -76,21 +79,17 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   text-align: center;
 }
 .weather-desc {
   padding-left: 90px;
 }
+.cInfo {
+  font-size: 18px;
+}
 .cInfo > svg {
   width: 70px;
   height: 70px;
-}
-.wind > * {
-  margin-top: 5px;
-}
-.main > * {
-  margin-top: 5px;
 }
 
 .dailyBox {
@@ -130,5 +129,17 @@ body {
   opacity: 1; /* Firefox */
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
+  .day {
+    font-size: 15px;
+  }
+  .dailyBox {
+    gap: 0;
+  }
+  .cInfo {
+    font-size: 14px;
+  }
+  .daily {
+    font-size: 14px;
+  }
 }
