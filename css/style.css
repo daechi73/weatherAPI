@@ -119,6 +119,11 @@ body {
 .dayTemp > span {
   padding-right: 30px;
 }
+.errorMsg {
+  margin-top: 12px;
+  color: navy;
+  font-size: 10px;
+}
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
