@@ -33,10 +33,11 @@ body {
   align-items: center;
 }
 .location {
-  height: 30px;
+  height: 35px;
   padding-top: 10px;
   padding-left: 20px;
   font-size: 30px;
+  font-weight: bold;
 }
 .searchbarDiv {
   border-bottom: solid;
@@ -65,6 +66,7 @@ body {
   display: flex;
   grid-row: 3/4;
   grid-column: 1/5;
+  justify-content: space-evenly;
 }
 .currentInfo {
   grid-column: 3/5;
@@ -76,6 +78,13 @@ body {
   gap: 10px;
   text-align: center;
 }
+.weather-desc {
+  padding-left: 90px;
+}
+.cInfo > svg {
+  width: 70px;
+  height: 70px;
+}
 .wind > * {
   margin-top: 5px;
 }
@@ -84,12 +93,25 @@ body {
 }
 
 .dailyBox {
-  width: 330px;
+  width: 200px;
   height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
+}
+.day {
+  font-size: 30px;
+  font-weight: bold;
+  padding-left: 20px;
+}
+.nightTemp {
+  font-size: 12px;
+}
+.day > svg {
+  height: 40px;
+  width: 40px;
 }
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
