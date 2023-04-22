@@ -99,6 +99,7 @@ const renderDaily = (dataList, nextFourDates) => {
     dayTemp.classList.add("daily");
     nightTemp.classList.add("nightTemp");
     nightTemp.classList.add("daily");
+    console.log(afternoonWeather);
     day.innerHTML = `${days} ${weatherSVG(afternoonWeather)}`;
     dayTemp.innerHTML = `
       <img src="./svgs/fog-day.svg" alt="daytime" width="40px" height="40px">

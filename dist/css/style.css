@@ -101,13 +101,16 @@ body {
   align-items: center;
   gap: 20px;
 }
+.daily {
+  display: flex;
+  align-items: center;
+}
 .day {
   font-size: 30px;
   font-weight: bold;
   padding-left: 20px;
 }
 .nightTemp {
-  font-size: 12px;
   padding-right: 30px;
 }
 
