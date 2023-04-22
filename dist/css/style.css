@@ -45,8 +45,10 @@ body {
 .searchbarDiv {
   border-bottom: solid;
   border-radius: 12px;
+  width: 270px;
 }
 .searchBar {
+  width: 220px;
   padding-left: 20px;
   border: none;
   border-radius: 8px;
@@ -54,6 +56,7 @@ body {
   outline-width: 0;
   background-color: rgba(0, 0, 0, 0);
   color: white;
+  font-size: 18px;
 }
 .searchBtn {
   border: none;
@@ -93,7 +96,7 @@ body {
 }
 
 .dailyBox {
-  width: 200px;
+  width: 250px;
   height: 150px;
   display: flex;
   flex-direction: column;
