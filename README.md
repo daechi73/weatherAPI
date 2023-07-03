@@ -31,7 +31,7 @@ Weather application that displays weather of city/country
 
 <u>Purpose</u>:
 
-- practice of API fetching and manipulating its data
+- practice of promise, API fetching and usage of its data.
 
 #Start-Page
 ![image](https://user-images.githubusercontent.com/59581793/233800188-4b5df53a-e493-411c-a9d6-eeb987bf98a3.png)
